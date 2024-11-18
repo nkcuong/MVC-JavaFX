@@ -1,0 +1,32 @@
+@startuml
+
+actor User
+
+User -> InvoiceManagementUI: addInvoice()
+activate InvoiceManagementUI
+
+InvoiceManagementUI -> Invoice: create(id, customerName)
+activate Invoice
+
+InvoiceManagementUI -> InvoiceController: addInvoice(Invoice)
+activate InvoiceController
+
+InvoiceController -> InvoiceModel: addInvoice(Invoice)
+activate InvoiceModel
+
+InvoiceModel -> Invoice: addLineItem(LineItem)
+activate Invoice
+
+InvoiceModel -> Invoice: addLineItem(LineItem)
+deactivate Invoice
+
+InvoiceModel -> InvoiceModel: saveInvoicesToFile()
+deactivate InvoiceModel
+
+InvoiceController <-- InvoiceModel: "Invoice added successfully."
+deactivate InvoiceController
+
+InvoiceManagementUI <-- InvoiceController: "Invoice added successfully."
+deactivate InvoiceManagementUI
+
+@enduml

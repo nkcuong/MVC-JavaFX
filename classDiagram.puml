@@ -1,0 +1,118 @@
+@startuml
+
+' Define classes
+class Main {
+    +start(Stage primaryStage)
+    -addItem()
+    -displayItems()
+    -updateItem()
+    -deleteItem()
+    -showInvoiceManagement()
+    -clearFields()
+}
+
+class ItemModel {
+    -List<Item> items
+    +ItemModel()
+    +addItem(Item item)
+    +List<Item> getItems()
+    -saveItemsToFile()
+    -loadItemsFromFile()
+}
+
+class InvoiceModel {
+    -List<Invoice> invoices
+    -ItemModel itemModel
+    +InvoiceModel(ItemModel itemModel)
+    +addInvoice(Invoice invoice)
+    +List<Invoice> getInvoices()
+    +List<Item> getItems()
+    -saveInvoicesToFile()
+    -loadInvoicesFromFile()
+}
+
+class Item {
+    -int id
+    -String name
+    -double price
+    -int quantity
+    +Item(int id, String name, double price, int quantity)
+    +String toString()
+}
+
+class Invoice {
+    -int id
+    -String customerName
+    -List<LineItem> lineItems
+    -double totalAmount
+    +Invoice(int id, String customerName)
+    +void addLineItem(LineItem lineItem)
+    +String toString()
+}
+
+class LineItem {
+    -Item item
+    -int quantity
+    -double amount
+    +LineItem(Item item, int quantity)
+    +String toString()
+}
+
+class ItemController {
+    -ItemModel model
+    +ItemController(ItemModel model)
+    +String addItem(Item item)
+    +String getItems()
+    +Item getItemById(int id)
+    +String updateItem(int id, Item newItem)
+    +String deleteItem(int id)
+}
+
+class InvoiceController {
+    -InvoiceModel model
+    +InvoiceController(InvoiceModel model)
+    +String addInvoice(Invoice invoice)
+    +String getInvoices()
+    +Item getItemById(int id)
+}
+
+class InvoiceManagementUI {
+    -InvoiceController invoiceController
+    -Stage stage
+    -TextField idField
+    -TextField customerField
+    -TextField itemIdField
+    -TextField itemQuantityField
+    -TextArea displayArea
+    -Button addLineItemButton
+    -Button addInvoiceButton
+    -Button displayInvoicesButton
+    -Button deleteLineItemButton
+    -Button closeButton
+    -ListView<LineItem> lineItemListView
+    +InvoiceManagementUI(InvoiceController invoiceController)
+    +void show()
+    -void addLineItem()
+    -void deleteSelectedLineItem()
+    -void addInvoice()
+    -void displayInvoices()
+    -void closeInvoiceManagement()
+    -void clearFields()
+}
+
+' Define relationships with notes
+Main --> ItemModel : "Uses to manage items"
+Main --> InvoiceModel : "Uses to manage invoices"
+Main --> ItemController : "Uses to control item operations"
+Main --> InvoiceController : "Uses to control invoice operations"
+Main --> InvoiceManagementUI : "Displays invoice management UI"
+ItemModel --> Item : "Contains a list of items"
+InvoiceModel --> Invoice : "Contains a list of invoices"
+InvoiceModel --> ItemModel : "Depends on ItemModel for items"
+Invoice --> LineItem : "Contains a list of line items"
+LineItem --> Item : "References an item"
+ItemController --> ItemModel : "Controls item operations"
+InvoiceController --> InvoiceModel : "Controls invoice operations"
+InvoiceManagementUI --> InvoiceController : "Uses to manage invoices"
+
+@enduml
