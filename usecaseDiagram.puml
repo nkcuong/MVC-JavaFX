@@ -1,0 +1,23 @@
+@startuml
+
+actor User
+
+rectangle "Item Management System" {
+    usecase "Add Item" as UC_AddItem
+    usecase "Display Items" as UC_DisplayItems
+    usecase "Update Item" as UC_UpdateItem
+    usecase "Delete Item" as UC_DeleteItem
+    usecase "Add Invoice" as UC_AddInvoice
+    usecase "Display Invoices" as UC_DisplayInvoices
+    usecase "Manage Invoices" as UC_ManageInvoices
+}
+
+User -> UC_AddItem
+User -> UC_DisplayItems
+User -> UC_UpdateItem
+User -> UC_DeleteItem
+User -> UC_AddInvoice
+User -> UC_DisplayInvoices
+User -> UC_ManageInvoices
+
+@enduml
